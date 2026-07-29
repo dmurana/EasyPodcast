@@ -1,6 +1,6 @@
 # EasyPodcast
 
-[![Versión](https://img.shields.io/badge/versión-1.9.5-blue)](https://github.com/educollado/EasyPodcast/releases/latest)
+[![Versión](https://img.shields.io/badge/versión-1.9.7-blue)](https://github.com/educollado/EasyPodcast/releases/latest)
 [![PHP](https://img.shields.io/badge/PHP-8%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/)
 [![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![Docker](https://img.shields.io/badge/Docker-ghcr.io-2496ED?logo=docker&logoColor=white)](https://github.com/educollado/EasyPodcast/pkgs/container/easypodcast)
@@ -147,7 +147,7 @@ La imagen del proyecto se construye sobre una base PHP/Apache fijada a una versi
 |---|---|
 | `admin.php` | Login/logout y acceso al panel |
 | `podcast_management.php` | Metadatos del canal |
-| `episodes_management.php` | CRUD de episodios |
+| `episodes_management.php` | CRUD de episodios con borrado seguro de imágenes compartidas con la portada del podcast |
 | `add_episode.php` | Alta/edición con editor visual HTML (Jodit), grabación con preescucha Web Audio y subida de imágenes con orientación EXIF |
 | `import_feed.php` | Importación de episodios desde feed RSS externo |
 | `backups.php` | Exportar/importar base de datos y ficheros |
@@ -199,19 +199,19 @@ Edita `lib/migration_runner.php`:
 
 ```php
 // 1. Bloque condicional en runMigrations()
-if ($version < 18) {
-    migration_v18($pdo);
-    $pdo->exec('PRAGMA user_version = 18');
+if ($version < 19) {
+    migration_v19($pdo);
+    $pdo->exec('PRAGMA user_version = 19');
 }
 
 // 2. Función de migración
-function migration_v18(PDO $pdo): void
+function migration_v19(PDO $pdo): void
 {
     $pdo->exec('ALTER TABLE episodes ADD COLUMN nueva_columna TEXT');
 }
 ```
 
-Y actualiza `schema.sql` con `PRAGMA user_version = 18`.
+Y actualiza `schema.sql` con `PRAGMA user_version = 19`.
 
 #### Historial de versiones
 
@@ -234,6 +234,7 @@ Y actualiza `schema.sql` con `PRAGMA user_version = 18`.
 | 15 | Añade `action_type` a `estadisticas` para diferenciar descargas y reproducciones |
 | 16 | Migra `api_tokens` a hash + sufijo visible y añade alcance explícito |
 | 17 | Añade `public_theme_mode_auto` a `podcast` para guardar el modo público `Según sistema` como ajuste global |
+| 18 | Activa EasyPodcast como tema predeterminado sin alterar otros temas elegidos |
 
 ---
 
@@ -370,6 +371,7 @@ El administrador elige el tema desde el panel (`admin.php` → tarjeta **Aparien
 
 | Slug | Nombre | Estilo |
 |---|---|---|
+| `easypodcast` | EasyPodcast | Predeterminado, azul marino y verde petróleo |
 | `default` | Amber Parchment | Claro cálido, acento terracota |
 | `oscuro` | Ember Noir | Oscuro cálido, acento naranja |
 | `agua` | Arctic Tide | Claro azul |

@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.9.7
+
+- **Tamaño del audio**: el formulario de episodios muestra y acepta el tamaño en MB con dos decimales, conservando internamente los bytes exactos requeridos por el RSS. Cambio realizado siguiendo las recomendaciones de Álex Ávalos.
+
+## 1.9.6
+
+- **Nueva identidad visual**: añadido el tema EasyPodcast, basado en la paleta azul marino, verde petróleo y ámbar de easypodcast.eu, y establecido como predeterminado mediante la migración `v18` sin alterar otros temas elegidos.
+- **Protección de imágenes**: al borrar un episodio desde el panel o la API, su imagen solo se elimina físicamente si ya no está referenciada por otros episodios ni como portada general del podcast.
+- **Calidad**: añadidos tests de regresión para cubrir imágenes compartidas, portadas y ficheros realmente huérfanos.
+
 ## 1.9.5
 
 - **Preescucha del grabador**: la grabación puede escucharse antes de usarla mediante Web Audio, evitando el fallo de reproducción de `Blob` de `MediaRecorder` observado en Firefox para Android y escritorio.
